@@ -30,7 +30,7 @@ void ler_dados (struct dados *vetor, FILE *arquivo)
         printf("\n(Questao 2) - O que achou do filme? (1, 2 ou 3): ");
         scanf("%d", &vetor[i].opiniao);
         
-        fprintf(arquivo, "IDADE[%d]:%d\t\tOPINIAO[%d]:%d\n", i, vetor[i].idade, i, vetor[i].opiniao);
+        fprintf(arquivo,"IDADE[%d]:%d\t\tOPINIAO[%d]:%d\n", i, vetor[i].idade, i, vetor[i].opiniao);
 	}
 }
 
@@ -50,6 +50,35 @@ float media_respostas_regular(struct dados *vetor)
 	return media;
 }
 
+int quantidade_bom(struct dados *vetor)
+{
+	int cont=0,i;
+	for(i=0;i<TAM;i++)
+	{
+		if(vetor[i].opiniao==2)
+		{
+			cont++;
+		}
+	}
+	
+	return cont;
+}
+
+float porcentagem_excelente(struct dados *vetor)
+{
+	int i,cont=0;
+	float p;
+	for(i=0;i<TAM;i++)
+	{
+		if(vetor[i].opiniao==1)
+		{
+			cont++;
+		}
+	}
+	p=(100.0*cont)/30.0;
+	return p;	
+}
+
 int main()
 {
     struct dados *vetor = (struct dados *) malloc(sizeof(struct dados) * TAM);
@@ -57,8 +86,9 @@ int main()
 	FILE *arquivo = fopen("opinioes.txt", "w");
 	
 	ler_dados(vetor, arquivo);
-	fprintf(arquivo,"MEDIA DAS IDADES DE QUEM RESPONDEU REGULAR _I_ %f \n",media_respostas_regular(vetor));
-    
+	fprintf(arquivo,"MEDIA DAS IDADES DE QUEM RESPONDEU REGULAR  %.2f\n",media_respostas_regular(vetor));
+	fprintf(arquivo,"QUANTIDADE DE QUEM RESPONDEU BOM %d\n",quantidade_bom(vetor));
+//    fprintf(arquivo,"porcentagem de quem respondeu excelente  %.2f \n",porcentagem_excelente(vetor));
     fclose(arquivo);
     return 0;
 }
