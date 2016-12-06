@@ -6,7 +6,7 @@
   a percentagem de pessoas que responderam excelente entre todos os expectadores analisados.*/
 #include<stdio.h>
 #include<stdlib.h>
-#define TAM 3
+#define TAM 2
 
 
 
@@ -14,110 +14,52 @@ struct dados
 {
     int idade;
     int opiniao;
-}espectadores[TAM];
+};
 
-
-
-
-int ler_dados(struct dados espectadores[TAM], FILE *arq)
+void ler_dados (struct dados *vetor, FILE *arquivo)
 {
-    int i;
-
-
-    for(i = 0; i < TAM; i++)
+	int i;
+	
+	 for(i = 0; i < TAM; i++)
     {
-        printf("<-------- Espectador %d -------->", i);
-        printf("\n(Questao 1) - Informe a idade: ");
-        scanf("%d", &espectadores[i].idade);
-        fprintf(arq, "escreveu\n", espectadores[i].idade);
-        while (espectadores[i].idade <= 0)
-        {
-            printf("Idade invalida, tente novamente.\n");
-            printf("(Questao 1) - Informe a idade: ");
-            scanf("%d", &espectadores[i].idade);
-        }
+    	//idades
+		printf("\n(Questao 1) - Informe a idade: ");
+        scanf("%d", &vetor[i].idade);
+        //opinioes
         printf("\n1- Excelente \t2- Bom \t3- Regular\n");
         printf("\n(Questao 2) - O que achou do filme? (1, 2 ou 3): ");
-        scanf("%d", &espectadores[i].opiniao);
-        while (espectadores[i].opiniao > TAM || espectadores[i].opiniao < 1)
-        {
-            printf("\nOpcao invalida, tente novamente.\n");
-            printf("\n(Questao 2) - O que achou do filme? (1, 2 ou 3): ");
-            scanf("%d", &espectadores[i].opiniao);
-        }
-        printf("\n\n\n\n");
+        scanf("%d", &vetor[i].opiniao);
         
-    }
-    media_respostas_regular(espectadores);
+        fprintf(arquivo, "IDADE[%d]:%d\t\tOPINIAO[%d]:%d\n", i, vetor[i].idade, i, vetor[i].opiniao);
+	}
 }
 
-
-//funcao que calcula a media das idades de todos que responderam regular
-int media_respostas_regular(struct dados espectadores[TAM])
+float media_respostas_regular(struct dados *vetor)
 {
-    int i, denominador = 0, numerador = 0;
-    float media = 0;
-    
-    for(i = 0; i < TAM; i++)
-    {
-        if (espectadores[i].opiniao == 3)
-        {
-            numerador = numerador + espectadores[i].idade;
-            denominador = denominador + 1;
-        }
-    }
-    media = (numerador/denominador);
-    printf("\n\nMedia de opinioes regulares: %.2f", media);
-    
-    quantidade_responderam_bom (espectadores);
-
-
+	int soma=0,i,cont=0;
+	float media=0;
+	for(i=0;i<TAM;i++)
+	{
+		if(vetor[i].opiniao==3)
+		{
+			soma+=vetor[i].idade;
+			cont++;
+		}
+	}
+	media=soma/cont;
+	return media;
 }
 
-
-int quantidade_responderam_bom (struct dados espectadores[TAM])
-{
-    int i, coleta = 0;
-    for(i = 0; i < TAM; i++)
-    {    
-        if (espectadores[i].opiniao == 2)
-        {
-            coleta = coleta +1;
-        }
-    }
-    printf("\n\nQuantidade de pessoas que avaliaram o filme em bom (2): %d", coleta);
-
-
-    percentagem_responderam_excelente (espectadores);
-}
-
-
-int percentagem_responderam_excelente (struct dados espectadores[TAM])
-{
-    int i, cont = 0;
-    float percentagem = 0;
-    
-    for(i = 0; i < TAM; i++)
-    {
-        if (espectadores[i].opiniao == 1)
-        {
-            cont = cont + 1;
-        }
-    }
-    percentagem = (100*cont)/3;
-    printf("\nA percentagem dos que avaliaram como excelente eh = %.2f", percentagem);
-}
 int main()
 {
-    char url[]="char.txt";
-    FILE *arq;
-    arq = fopen(url, "w");
-	if(arq == NULL)
-		printf("Erro, nao foi possivel abrir o arquivo\n");
-
-	ler_dados(espectadores,arq);
-	fclose(arq);
+    struct dados *vetor = (struct dados *) malloc(sizeof(struct dados) * TAM);
     
+	FILE *arquivo = fopen("opinioes.txt", "w");
+	
+	ler_dados(vetor, arquivo);
+	fprintf(arquivo,"MEDIA DAS IDADES DE QUEM RESPONDEU REGULAR _I_ %f \n",media_respostas_regular(vetor));
+    
+    fclose(arquivo);
     return 0;
 }
 
