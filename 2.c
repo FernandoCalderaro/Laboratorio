@@ -1,14 +1,21 @@
-/*2. No dia da estréia do filme “Senhor dos Anéis”, uma grande emissora de TV realizou uma pesquisa logo
-  após o encerramento do filme. Cada espectador respondeu a um questionário no qual constava sua idade
-  e a sua opinião em relação ao filme: excelente -1; bom-2; regular-3. Criar um algoritmo que receba a
-  idade e a opinião de 30 espectadores, calcule e imprima:
-  A média das idades das pessoas que responderam regular; a quantidade de pessoas que responderam bom;
-  a percentagem de pessoas que responderam excelente entre todos os expectadores analisados.*/
+/*	Equipe:
+			Fernando Calderaro
+			Luana Andrade
+			Robson Borges
+			
+
+	2. No dia da estréia do filme “Senhor dos Anéis”, uma grande emissora de TV realizou uma pesquisa logo
+  	   após o encerramento do filme. Cada espectador respondeu a um questionário no qual constava sua idade
+  	   e a sua opinião em relação ao filme: excelente -1; bom-2; regular-3. Criar um algoritmo que receba a
+  	   idade e a opinião de 30 espectadores, calcule e imprima:
+		
+			A média das idades das pessoas que responderam regular; 
+			a quantidade de pessoas que responderam bom;
+			a percentagem de pessoas que responderam excelente entre todos os expectadores analisados.			*/
+
 #include<stdio.h>
 #include<stdlib.h>
 #define TAM 2
-
-
 
 struct dados
 {
